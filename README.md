@@ -12,3 +12,9 @@ Esqueleto del proyecto
 - Creación de las clases de servicio
 - Creación de las clases de controlador
 
+## commit2 ##
+Creación de la base de datos
+- Creación de la base de datos
+- Creación de las tablas de la base de datos
+- Creación de los datos de prueba con usuarios, instalaciones y horarios
+- confirmacion de reservas

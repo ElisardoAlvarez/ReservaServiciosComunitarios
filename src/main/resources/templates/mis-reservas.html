@@ -5,6 +5,9 @@
 </head>
 <body>
 <h2>Mis Reservas</h2>
+<a href="/login">Ir a Login</a>
+<a href="/reservas">Ir a Reservas</a>
+<a href="/mis-reservas">Ir a Mis Reservas</a>
 <div>
     <ul>
         <li th:each="reserva : ${reservas}" th:text="${reserva.servicio.nombre} + ' - ' + ${reserva.fechaHora}"></li>

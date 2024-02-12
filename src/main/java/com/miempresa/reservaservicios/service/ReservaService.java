@@ -1,42 +1,63 @@
 package com.miempresa.reservaservicios.service;
 
-import com.miempresa.reservaservicios.model.Reserva;
-import com.miempresa.reservaservicios.model.Servicio;
 import com.miempresa.reservaservicios.repository.ReservaRepository;
-import com.miempresa.reservaservicios.repository.ServicioRepository;
+import com.miempresa.reservaservicios.model.Reserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
+import java.util.ArrayList;
+
 
 @Service
 public class ReservaService {
 
     private final ReservaRepository reservaRepository;
-    private final ServicioRepository servicioRepository;
 
     @Autowired
-    public ReservaService(ReservaRepository reservaRepository, ServicioRepository servicioRepository) {
+    public ReservaService(ReservaRepository reservaRepository) {
         this.reservaRepository = reservaRepository;
-        this.servicioRepository = servicioRepository;
     }
+    public List<LocalTime> generarHorariosDisponibles() {
+        List<LocalTime> horariosDisponibles = new ArrayList<>();
+        LocalTime inicio = LocalTime.of(8, 0); // 8:00 am
+        LocalTime fin = LocalTime.of(22, 0); // 10:00 pm
 
-    public boolean crearReserva(Long servicioId, String username, LocalDateTime fechaHora) {
-        Optional<Servicio> servicioOpt = servicioRepository.findById(servicioId);
-        if (servicioOpt.isPresent()) {
-            Servicio servicio = servicioOpt.get();
-            List<Reserva> reservasExistentes = reservaRepository.findByServicioAndFechaHora(servicio, fechaHora);
-            if (reservasExistentes.size() < servicio.getCapacidad()) {
-                Reserva nuevaReserva = new Reserva();
-                // Configurar y guardar la nueva reserva
-                reservaRepository.save(nuevaReserva);
-                return true;
-            }
+        for (LocalTime hora = inicio; hora.isBefore(fin); hora = hora.plusHours(1)) {
+            horariosDisponibles.add(hora);
         }
-        return false;
+
+        return horariosDisponibles;
+    }
+    // Método para crear una nueva reserva
+   public Reserva crearReserva(Reserva reserva) {
+    LocalTime horaReserva = reserva.getHora();
+    List<LocalTime> horariosDisponibles = generarHorariosDisponibles();
+
+    if (!horariosDisponibles.contains(horaReserva)) {
+        throw new IllegalArgumentException("La hora de la reserva no está dentro de los horarios disponibles.");
     }
 
-    // Métodos adicionales para manejar reservas
+    return reservaRepository.save(reserva);
+}
+
+    // Método para obtener todas las reservas
+    public List<Reserva> obtenerTodasLasReservas() {
+        return reservaRepository.findAll();
+    }
+
+    // Método para obtener una reserva por ID
+    public Reserva obtenerReservaPorId(Long id) {
+        return reservaRepository.findById(id).orElse(null);
+    }
+
+    // Método para actualizar una reserva
+    public Reserva actualizarReserva(Reserva reserva) {
+        return reservaRepository.save(reserva);
+    }
+
+    // Método para eliminar una reserva
+    public void eliminarReserva(Long id) {
+        reservaRepository.deleteById(id);
+    }
 }
