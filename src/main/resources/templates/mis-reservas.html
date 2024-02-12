@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mis Reservas</title>
+</head>
+<body>
+<h2>Mis Reservas</h2>
+<div>
+    <ul>
+        <li th:each="reserva : ${reservas}" th:text="${reserva.servicio.nombre} + ' - ' + ${reserva.fechaHora}"></li>
+    </ul>
+</div>
+</body>
+</html>

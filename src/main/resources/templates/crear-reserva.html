@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Crear Reserva</title>
+</head>
+<body>
+<h2>Crear Reserva</h2>
+<form th:action="@{/reservas/crear}" method="post">
+    <div>
+        <label for="servicio">Servicio:</label>
+        <select id="servicio" name="servicioId">
+            <option th:each="servicio : ${servicios}" th:value="${servicio.id}" th:text="${servicio.nombre}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="fechaHora">Fecha y Hora:</label>
+        <input type="datetime-local" id="fechaHora" name="fechaHora">
+    </div>
+    <div>
+        <input type="submit" value="Reservar">
+    </div>
+</form>
+</body>
+</html>
