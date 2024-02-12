@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.ArrayList;
 
-
 @Service
 public class ReservaService {
 
@@ -18,6 +17,7 @@ public class ReservaService {
     public ReservaService(ReservaRepository reservaRepository) {
         this.reservaRepository = reservaRepository;
     }
+
     public List<LocalTime> generarHorariosDisponibles() {
         List<LocalTime> horariosDisponibles = new ArrayList<>();
         LocalTime inicio = LocalTime.of(8, 0); // 8:00 am
@@ -29,34 +29,30 @@ public class ReservaService {
 
         return horariosDisponibles;
     }
-    // Método para crear una nueva reserva
-   public Reserva crearReserva(Reserva reserva) {
-    LocalTime horaReserva = reserva.getHora();
-    List<LocalTime> horariosDisponibles = generarHorariosDisponibles();
 
-    if (!horariosDisponibles.contains(horaReserva)) {
-        throw new IllegalArgumentException("La hora de la reserva no está dentro de los horarios disponibles.");
+    public Reserva crearReserva(Reserva reserva) {
+        LocalTime horaReserva = reserva.getHora();
+        List<LocalTime> horariosDisponibles = generarHorariosDisponibles();
+
+        if (!horariosDisponibles.contains(horaReserva)) {
+            throw new IllegalArgumentException("La hora de la reserva no está dentro de los horarios disponibles.");
+        }
+
+        return reservaRepository.save(reserva);
     }
 
-    return reservaRepository.save(reserva);
-}
-
-    // Método para obtener todas las reservas
     public List<Reserva> obtenerTodasLasReservas() {
         return reservaRepository.findAll();
     }
 
-    // Método para obtener una reserva por ID
     public Reserva obtenerReservaPorId(Long id) {
         return reservaRepository.findById(id).orElse(null);
     }
 
-    // Método para actualizar una reserva
     public Reserva actualizarReserva(Reserva reserva) {
         return reservaRepository.save(reserva);
     }
 
-    // Método para eliminar una reserva
     public void eliminarReserva(Long id) {
         reservaRepository.deleteById(id);
     }

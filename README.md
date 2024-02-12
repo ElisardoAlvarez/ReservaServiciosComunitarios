@@ -18,3 +18,12 @@ Creación de la base de datos
 - Creación de las tablas de la base de datos
 - Creación de los datos de prueba con usuarios, instalaciones y horarios
 - confirmacion de reservas
+
+## commit3 ##
+Creación de la interfaz de usuario
+- Creación de las páginas HTML
+- Creación de los controladores de las páginas
+- Creación de las plantillas de las páginas
+- Creación de las hojas de estilo CSS
+- Creación test de pruebas
+
